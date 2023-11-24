@@ -1,0 +1,56 @@
+<article>
+  <header style="background-color: black">
+    <h1>Hola,
+      <span style="color: cadetblue;">{{user.role}}</span>. Bienvenido a la Zona
+      de Productos</h1>
+  </header>
+  <h4>Estos son tus datos de usuario:</h4>
+  <p><strong>Nombre:</strong> {{user.first_name}}</p>
+  <p><strong>Apellido:</strong> {{user.last_name}}</p>
+  <p><strong>Email:</strong> {{user.email}}</p>
+  <footer>
+    <a href="/sessions/login" role="button">Logout</a>
+  </footer>
+</article>
+<h1>Products</h1>
+
+<table id="main" role="grid">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Code</th>
+    <th>Price</th>
+    <th>Stock</th>
+    <th>Category</th>
+    <th>Thumbnail</th>
+    <th>Status</th>
+    <th>Action</th> 
+  </tr>
+  {{#each payload}}
+    <tr>
+      <td><a>{{this.title}}</a></td>
+      <td>{{this.description}}</td>
+      <td>{{this.code}}</td>
+      <td>$ {{this.price}}</td>
+      <td>{{this.stock}}</td>
+      <td>{{this.category}}</td>
+      <td>{{this.thumbnail}}</td>
+      <td>{{this.status}}</td>
+      <td><button onclick="addToCart('{{this.title}}', {{this.price}})">Agregar al carrito</button></td>
+    </tr>
+  {{/each}}
+</table>
+
+<p>You're on page n° {{page}}</p>
+
+<a href="{{prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>Anterior</a>
+<a href="{{nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>Siguiente</a>
+
+<script>
+  // Function to handle adding the product to the cart
+  function addToCart(title, price) {
+    // Implement your logic to add the product to the cart
+    console.log('Product added to cart:', title, 'Price:', price);
+    // You can use JavaScript to update the cart, send a request to the server, etc.
+  }
+</script>
