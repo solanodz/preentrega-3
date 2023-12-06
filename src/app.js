@@ -1,14 +1,18 @@
 import express from 'express';
+import passport from 'passport'
 import path from 'path';
 import handlebars from 'express-handlebars';
 import expressSessions from 'express-session';
 import MongoStore from 'connect-mongo';
+import cookieParser from 'cookie-parser'
 
 import { URI } from './db/mongodb.js';
 import indexRouter from './routers/index.router.js';
 import sessionsRouter from './routers/sessions.router.js';
 import productsRouter from './routers/product.router.js';
+import { init as initPassportConfig } from './config/passport.config.js'
 import { __dirname } from './utils.js';
+
 
 const app = express();
 const SESSION_SECRET = "}_K>k2:*Ip]A:Pa_1v=£rfBk=92£Zz|";
@@ -26,11 +30,16 @@ app.use(expressSessions({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.engine('handlebars', handlebars.engine());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
+
+initPassportConfig()
+app.use(passport.initialize());
+app.use(passport.session())
 
 app.use('/', indexRouter);
 app.use('/sessions', sessionsRouter); // Cambiado a '/sessions'

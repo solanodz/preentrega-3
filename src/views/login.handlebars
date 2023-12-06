@@ -1,10 +1,22 @@
 <article style="background-color: black;">
-  <form action="/sessions/login" method="post">
+  <form id="login-form" action="/sessions/login" method="post">
     <header>
       <h1>Login</h1>
     </header>
-    <input type="email" name="email" placeholder="Email" required />
-    <input type="password" name="password" placeholder="Contraseña" required />
+    <input
+      id="email-input"
+      type="email"
+      name="email"
+      placeholder="Email"
+      required
+    />
+    <input
+      id="password-input"
+      type="password"
+      name="password"
+      placeholder="Contraseña"
+      required
+    />
     <footer>
       <input type="submit" value="Enviar" />
     </footer>

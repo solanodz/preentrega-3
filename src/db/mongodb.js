@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const URI = 'mongodb+srv://solanodz:9CTacOfBypakyJx3@cluster0.w0s099h.mongodb.net/desafio-login';
+export const URI = 'mongodb+srv://solanodz:9CTacOfBypakyJx3@cluster0.w0s099h.mongodb.net/desafio-complementario-2';
 
 export const init = async () => {
     try {
