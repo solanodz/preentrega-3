@@ -10,6 +10,7 @@ import { URI } from './db/mongodb.js';
 import indexRouter from './routers/index.router.js';
 import sessionsRouter from './routers/sessions.router.js';
 import productsRouter from './routers/product.router.js';
+import cartsRouter from './routers/cart.router.js';
 import { init as initPassportConfig } from './config/passport.config.js'
 import { __dirname } from './utils.js';
 
@@ -43,7 +44,7 @@ app.use(passport.session())
 
 app.use('/', indexRouter);
 app.use('/sessions', sessionsRouter); // Cambiado a '/sessions'
-app.use('/', productsRouter);
+app.use('/', productsRouter, cartsRouter);
 
 app.use((error, req, res, next) => {
     const message = `⛔ Ha ocurrido un error desconocido: ${error.message}.`;
