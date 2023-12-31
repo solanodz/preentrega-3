@@ -3,12 +3,20 @@ import { fileURLToPath } from 'url';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import UserModel from './models/user.model.js';
+import config from './config/config.js';
 
 export const __filename = fileURLToPath(import.meta.url);
 
 export const __dirname = path.dirname(__filename);
 
-export const JWT_SECRET = "}_K>k2:*Ip]A:Pa_1v=£rfBk=92£Zz|";
+export default class Exception extends Error {
+    constructor(message, status) {
+        super(message);
+        this.statusCode = status;
+    }
+}
+
+const JWT_SECRET = config.jwtSecret;
 
 export const createHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));

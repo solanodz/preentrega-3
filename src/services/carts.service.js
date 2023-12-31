@@ -5,29 +5,29 @@ export default class CartsService {
         this.cartDao = new CartDao();
     }
 
-    static getAll(filter = {}) {
-        return CartDao.get(filter)
+    static getAllCartsS(filter = {}) {
+        return CartDao.getCarts(filter)
     }
 
-    static async getById(cid) {
-        return CartDao.getById(cid);
+    static async getCartByIdS(cid) {
+        return CartDao.getCartById(cid);
     }
 
-    static async getOne(filter = {}) {
-        const [cart] = await CartDao.get(filter);
+    static async getOneCartS(filter = {}) {
+        const [cart] = await CartDao.getOneCart(filter);
         return cart;
     }
 
-    static async create(data) {
-        const cart = await CartDao.create(data);
+    static async createCartS(data) {
+        const cart = await CartDao.createCart(data);
         return cart;
     }
 
-    static async updateById(cid, data) {
-        return CartDao.updateById(cid, data);
+    static async updateCartByIdS(cid, data) {
+        return CartDao.updateCartById(cid, data);
     }
 
-    static deleteById(cid) {
-        return CartDao.deleteById(cid);
+    static deleteCartByIdS(cid) {
+        return CartDao.deleteCartById(cid);
     }
 }

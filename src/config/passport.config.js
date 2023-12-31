@@ -1,8 +1,9 @@
 import passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
-import { JWT_SECRET, createHash, isValidPassword } from '../utils.js'
+import { createHash, isValidPassword } from '../utils.js'
 import UserModel from '../models/user.model.js'
+import config from '../config/config.js'
 
 const opts = {
     usernameField: 'email',
@@ -48,7 +49,7 @@ export const init = () => {
 
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJwt.fromExtractors([]),
-        secretOrKey: JWT_SECRET,
+        secretOrKey: config.jwtSecret,
     }, (payload, done) => {
         return done(null, payload)
     }))

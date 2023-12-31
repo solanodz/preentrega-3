@@ -42,9 +42,9 @@ initPassportConfig()
 app.use(passport.initialize());
 app.use(passport.session())
 
-app.use('/', indexRouter);
-app.use('/sessions', sessionsRouter); // Cambiado a '/sessions'
-app.use('/', productsRouter, cartsRouter);
+app.use('/', indexRouter, productsRouter, cartsRouter);
+app.use('/sessions', sessionsRouter);
+
 
 app.use((error, req, res, next) => {
     const message = `⛔ Ha ocurrido un error desconocido: ${error.message}.`;
