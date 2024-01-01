@@ -70,7 +70,7 @@ router.get('/users/:uid', async (req, res, next) => {
 })
 
 
-router.post('/login', passport.authenticate('login', { failureRedirect: '/login' }), async (req, res) => {
+router.post('/sessions/login', passport.authenticate('login', { failureRedirect: '/login' }), async (req, res) => {
     const { email } = req.user; // Utilizando req.user después de autenticar
 
     // Consultando la base de datos para obtener el usuario

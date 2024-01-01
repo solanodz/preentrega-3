@@ -39,7 +39,6 @@ export default class CartController {
         return cart;
     }
 
-
     static async deleteCart(cid) {
         const cart = await CartsService.getOne({ cid })
         if (!cart) {

@@ -71,7 +71,7 @@ router.get('/products/:pid', async (req, res, next) => {
     try {
         const { params: { pid } } = req;
         const product = await ProductsController.findById(pid)
-        res.status(201).json(product)
+        res.status(201).render(product)
         if (!product) {
             res.status(404).json({ message: 'El producto solicitado no existe' })
         }
