@@ -1,0 +1,229 @@
+paths:
+  /api/products/:
+    get:
+      summary: Listar productos
+      tags:
+        - Products
+      responses:
+        200:
+          description: Los productos fueron obtenidos exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        500:
+          description: Error interno del servidor.
+    post:
+      summary: Crear producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createProduct"
+      responses:
+        201:
+          description: Producto creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          description: Body con valores inválidos.
+        500:
+          description: Error interno del servidor.
+
+  /api/products/{pid}:
+    get:
+      summary: Permite obtener un producto por su identificador.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            $type: string
+      responses:
+        200:
+          description: Producto encontrado en la base de datos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        404:
+          description: Producto no encontrado en la base de datos.
+        500:
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar producto
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateProduct"
+      responses:
+        200:
+          description: Producto actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          description: Body con valores inválidos.
+        404:
+          description: Producto no encontrado en la base de datos.
+        500:
+          description: Error interno del servidor.
+    delete:
+      summary: Permite eliminar un producto por su identificador.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            $type: string
+      responses:
+        200:
+          description: Producto eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        404:
+          description: Producto no encontrado en la base de datos.
+        500:
+          description: Error interno del servidor.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador del producto, creado por Mongo db.
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: number
+          description: Descripcion del producto.
+        code:
+          type: string
+          description: Codigo del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        thumbnail:
+          type: string
+          description: Thumbnail del producto.
+        status:
+          type: boolean
+          description: Estado del producto.
+      example:
+        _id: "60f0c9c9e6b3a3b4c8a7b8a0"
+        title: "Producto 1"
+        description: "Descripcion del producto 1"
+        code: "1234"
+        price: 1000
+        stock: 10
+        category: "Categoria 1"
+        thumbnail: "thumbnail 1"
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: number
+          description: Descripcion del producto.
+        code:
+          type: string
+          description: Codigo del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        thumbnail:
+          type: string
+          description: Thumbnail del producto.
+        status:
+          type: boolean
+          description: Estado del producto.
+      example:
+        title: "Producto Ejemplo"
+        description: "Descripcion del producto Ejemplo"
+        code: "ejemplo1234"
+        price: 1000
+        stock: 10
+        category: "Categoria ejemplo"
+        thumbnail: "thumbnail ejemplo"
+        status: true
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: number
+          description: Descripcion del producto.
+        code:
+          type: string
+          description: Codigo del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        thumbnail:
+          type: string
+          description: Thumbnail del producto.
+        status:
+          type: boolean
+          description: Estado del producto.
+      example:
+        title: "Producto Ejemplo"
+        description: "Descripcion del producto Ejemplo"
+        code: "ejemplo1234"
+        price: 1000
+        stock: 10
+        category: "Categoria ejemplo"
+        thumbnail: "thumbnail ejemplo"
+        status: true

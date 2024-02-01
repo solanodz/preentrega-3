@@ -1,0 +1,377 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Listar carritos
+      tags:
+        - Carts
+      responses:
+        200:
+          description: Los carritos fueron obtenidos exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        500:
+          description: Error interno del servidor.
+    post:
+      summary: Crear carrito
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createCart"
+      responses:
+        201:
+          description: Carrito creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        400:
+          description: Body con valores inválidos.
+        500:
+          description: Error interno del servidor.
+  /api/carts/{cid}:
+    get:
+      summary: Permite obtener un carrito por su identificador.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: Identificador del carrito.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/getCart"
+      responses:
+        200:
+          description: Carrito encontrado en la base de datos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        404:
+          description: Carrito no encontrado en la base de datos.
+        500:
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar carrito
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: Identificador del carrito.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateCart"
+      responses:
+        203:
+          description: Carrito actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        400:
+          description: Body con valores inválidos.
+        404:
+          description: Carrito no encontrado en la base de datos.
+        500:
+          description: Error interno del servidor.
+    delete:
+      summary: Eliminar carrito
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: Identificador del carrito.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/deleteCart"
+      responses:
+        200:
+          description: Carrito eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        404:
+          description: Carrito no encontrado en la base de datos.
+        500:
+          description: Error interno del servidor.
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agregar un producto a un carrito especifico.
+      tags:
+        - Carts
+        - Products
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: Identificador del carrito.
+          schema:
+            $type: string
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/addProductToCart"
+      responses:
+        201:
+          description: Producto agregado exitosamente al carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        400:
+          description: Body con valores inválidos.
+        500:
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar un producto de un carrito especifico.
+      tags:
+        - Carts
+        - Products
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: Identificador del carrito.
+          schema:
+            $type: string
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateProductInCart"
+      responses:
+        203:
+          description: Producto actualizado exitosamente en el carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        400:
+          description: Body con valores inválidos.
+        404:
+          description: Producto no encontrado en el carrito.
+        500:
+          description: Error interno del servidor.
+    delete:
+      summary: Eliminar un producto de un carrito especifico.
+      tags:
+        - Carts
+        - Products
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: Identificador del carrito.
+          schema:
+            $type: string
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/deleteProductInCart"
+      responses:
+        200:
+          description: Producto eliminado exitosamente del carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        404:
+          description: Producto no encontrado en el carrito.
+        500:
+          description: Error interno del servidor.
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador del carrito, creado por Mongo db.
+        products:
+          type: array
+          description: Lista de productos en el carrito.
+          items:
+            $ref: "#/components/schemas/Product"
+
+  requestBodies:
+    getCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador del carrito, creado por Mongo db.
+        products:
+          type: array
+          description: Lista de productos en el carrito.
+          items:
+            $ref: "#/components/schemas/Product"
+    createCart:
+      type: object
+      properties:
+        products:
+          type: array
+          description: Lista de productos en el carrito.
+          items:
+            $ref: "#/components/schemas/Product"
+        status: true
+    updateCart:
+      type: object
+      properties:
+        products:
+          type: array
+          description: Lista de productos en el carrito.
+          items:
+            $ref: "#/components/schemas/Product"
+        status: true
+    deleteCart:
+      type: object
+      properties:
+        products:
+          type: array
+          description: Lista de productos en el carrito.
+          items:
+            $ref: "#/components/schemas/Product"
+        status: true
+    addProductToCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador del producto, creado por Mongo db.
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: number
+          description: Descripcion del producto.
+        code:
+          type: string
+          description: Codigo del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        thumbnail:
+          type: string
+          description: Thumbnail del producto.
+        status:
+          type: boolean
+          description: Estado del producto.
+    updateProductInCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador del producto, creado por Mongo db.
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: number
+          description: Descripcion del producto.
+        code:
+          type: string
+          description: Codigo del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        thumbnail:
+          type: string
+          description: Thumbnail del producto.
+        status:
+          type: boolean
+          description: Estado del producto.
+    deleteProductInCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador del producto, creado por Mongo db.
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: number
+          description: Descripcion del producto.
+        code:
+          type: string
+          description: Codigo del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        thumbnail:
+          type: string
+          description: Thumbnail del producto.
+        status:
+          type: boolean
+          description: Estado del producto.

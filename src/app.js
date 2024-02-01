@@ -13,6 +13,9 @@ import productsRouter from './routers/product.router.js';
 import cartsRouter from './routers/cart.router.js';
 import { init as initPassportConfig } from './config/passport.config.js'
 import { __dirname } from './utils.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
+
 
 
 const app = express();
@@ -42,7 +45,23 @@ initPassportConfig()
 app.use(passport.initialize());
 app.use(passport.session())
 
-app.use('/', indexRouter, productsRouter, cartsRouter);
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'e-commerce',
+            description: 'Proyecto final del curso de backend de Coderhouse.',
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`],
+};
+const specs = swaggerJsDoc(swaggerOptions);
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+app.use('/api', indexRouter, productsRouter, cartsRouter);
 app.use('/sessions', sessionsRouter);
 
 
