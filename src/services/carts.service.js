@@ -1,5 +1,4 @@
-import CartDao from "../dao/cart.dao.js";
-
+import CartDao from '../dao/cart.dao.js';
 export default class CartsService {
     constructor() {
         this.cartDao = new CartDao();
